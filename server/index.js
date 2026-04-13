@@ -29,14 +29,6 @@ app.use(cors({
   credentials: true
 }));
 
-// Security headers for Firebase popup authentication
-app.use((req, res, next) => {
-  // Allow popup communication with parent window
-  res.header('Cross-Origin-Opener-Policy', 'same-origin-allow-popups');
-  res.header('Cross-Origin-Embedder-Policy', 'require-corp');
-  next();
-});
-
 app.use(express.json({ limit: '10kb' }));
 app.use('/api', limiter);
 

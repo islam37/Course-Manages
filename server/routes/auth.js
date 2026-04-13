@@ -98,8 +98,12 @@ router.post('/google', async (req, res) => {
     const userObj = user.toJSON();
     res.json({ message: 'Google login successful', token, user: userObj });
   } catch (err) {
-    console.error('Google auth error:', err.message);
-    res.status(500).json({ message: err.message || 'Google authentication failed' });
+    console.error('Google auth error:', err);
+    console.error('Stack:', err.stack);
+    res.status(500).json({ 
+      message: err.message || 'Google authentication failed',
+      error: process.env.NODE_ENV === 'development' ? err.message : undefined
+    });
   }
 });
 

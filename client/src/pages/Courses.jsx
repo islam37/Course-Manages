@@ -100,7 +100,8 @@ export default function Courses() {
           }
         })
         .catch(err => {
-          if (err.name !== 'AbortError') {
+          // Silently ignore cancellations
+          if (err.name !== 'AbortError' && err.message !== 'canceled') {
             console.error('Failed to fetch enrollments:', err.message)
           }
         }),
@@ -111,7 +112,8 @@ export default function Courses() {
           }
         })
         .catch(err => {
-          if (err.name !== 'AbortError') {
+          // Silently ignore cancellations
+          if (err.name !== 'AbortError' && err.message !== 'canceled') {
             console.error('Failed to fetch enrollment count:', err.message)
           }
         })

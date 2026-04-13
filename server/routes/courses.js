@@ -13,7 +13,16 @@ router.get('/', async (req, res) => {
     const category = req.query.category || '';
 
     const query = {};
-    if (search) query.$text = { $search: search };
+    
+    // Use regex for flexible search instead of text search
+    if (search) {
+      query.$or = [
+        { title: { $regex: search, $options: 'i' } },
+        { shortDescription: { $regex: search, $options: 'i' } },
+        { instructorName: { $regex: search, $options: 'i' } }
+      ];
+    }
+    
     if (category) query.category = category;
 
     const total = await Course.countDocuments(query);
@@ -29,6 +38,7 @@ router.get('/', async (req, res) => {
       totalPages: Math.ceil(total / limit)
     });
   } catch (err) {
+    console.error('Courses GET error:', err);
     res.status(500).json({ message: err.message });
   }
 });
@@ -81,12 +91,13 @@ router.post('/', verifyToken, adminOnly, async (req, res) => {
       category,
       duration: xss(duration), 
       totalSeats: totalSeats || 10, 
-      instructorEmail, 
+      instructorEmail: instructorEmail.toLowerCase(), 
       instructorName: xss(instructorName)
     });
 
     res.status(201).json({ message: 'Course created successfully', course });
   } catch (err) {
+    console.error('Course creation error:', err);
     res.status(500).json({ message: err.message });
   }
 });

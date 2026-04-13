@@ -6,6 +6,23 @@ import App from './App.jsx'
 import { AuthProvider } from './context/AuthContext.jsx'
 import './index.css'
 
+// Suppress harmless Firebase COOP policy warnings
+const originalWarn = console.warn
+const originalError = console.error
+const originalLog = console.log
+
+const isCOOPMessage = (msg) => msg?.toString?.()?.includes?.('Cross-Origin-Opener-Policy')
+
+console.warn = function(...args) {
+  if (!args.some(isCOOPMessage)) originalWarn.apply(console, args)
+}
+console.error = function(...args) {
+  if (!args.some(isCOOPMessage)) originalError.apply(console, args)
+}
+console.log = function(...args) {
+  if (!args.some(isCOOPMessage)) originalLog.apply(console, args)
+}
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
