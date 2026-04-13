@@ -97,17 +97,38 @@ router.put('/:id', verifyToken, adminOnly, async (req, res) => {
     const course = await Course.findById(req.params.id);
     if (!course) return res.status(404).json({ message: 'Course not found' });
 
-    const { title, shortDescription, description, imageURL, category, duration, instructorEmail, instructorName } = req.body;
+    const { title, shortDescription, description, imageURL, category, duration, totalSeats, instructorEmail, instructorName } = req.body;
+
+    // Validate required fields
+    if (title && title.trim().length === 0) {
+      return res.status(400).json({ message: 'Title cannot be empty' });
+    }
+    if (shortDescription && shortDescription.length > 200) {
+      return res.status(400).json({ message: 'Short description cannot exceed 200 characters' });
+    }
+    if (description && description.length > 2000) {
+      return res.status(400).json({ message: 'Description cannot exceed 2000 characters' });
+    }
+    if (duration && duration.trim().length === 0) {
+      return res.status(400).json({ message: 'Duration cannot be empty' });
+    }
+    if (instructorEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(instructorEmail)) {
+      return res.status(400).json({ message: 'Invalid instructor email' });
+    }
+    if (totalSeats && (totalSeats < 1 || totalSeats > 100)) {
+      return res.status(400).json({ message: 'Total seats must be between 1 and 100' });
+    }
 
     Object.assign(course, {
-      title: title || course.title,
-      shortDescription: shortDescription || course.shortDescription,
-      description: description || course.description,
-      imageURL: imageURL !== undefined ? imageURL : course.imageURL,
+      title: title ? xss(title) : course.title,
+      shortDescription: shortDescription ? xss(shortDescription) : course.shortDescription,
+      description: description ? xss(description) : course.description,
+      imageURL: imageURL !== undefined ? xss(imageURL) : course.imageURL,
       category: category || course.category,
-      duration: duration || course.duration,
+      duration: duration ? xss(duration) : course.duration,
       instructorEmail: instructorEmail || course.instructorEmail,
-      instructorName: instructorName || course.instructorName
+      instructorName: instructorName ? xss(instructorName) : course.instructorName,
+      totalSeats: totalSeats || course.totalSeats
     });
 
     await course.save();

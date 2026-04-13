@@ -2,7 +2,14 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const rateLimit = require('express-rate-limit');
+const dns = require('dns');
 require('dotenv').config();
+
+// Fix DNS resolution for MongoDB Atlas (resolves SRV record issues)
+dns.setServers(['8.8.8.8', '8.8.4.4']);
+
+const dns = require('dns');
+dns.setServers(['8.8.8.8', '8.8.4.4']);
 
 const authRoutes = require('./routes/auth');
 const courseRoutes = require('./routes/courses');
