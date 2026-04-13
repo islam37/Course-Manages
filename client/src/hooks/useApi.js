@@ -30,8 +30,8 @@ export function useFetch(url, deps = []) {
       })
       setData(res.data)
     } catch (err) {
-      // Ignore abort errors
-      if (err.name !== 'AbortError') {
+      // Ignore abort errors and canceled requests (normal on unmount/component change)
+      if (err.name !== 'AbortError' && err.message !== 'canceled') {
         setError(err.response?.data?.message || 'Failed to fetch')
         console.error(`Fetch error (${url}):`, err.message)
       }
@@ -78,7 +78,8 @@ export function useEnrollmentCheck(courseId, user) {
         setEnrollmentId(res.data.enrollment?._id || null)
       })
       .catch(err => {
-        if (err.name !== 'AbortError') {
+        // Ignore abort errors (normal on unmount/dependency change)
+        if (err.name !== 'AbortError' && err.message !== 'canceled') {
           console.error('Enrollment check error:', err.message)
         }
       })
@@ -114,7 +115,8 @@ export function useEnrollmentCount(user) {
       })
       setCount(res.data.count)
     } catch (err) {
-      if (err.name !== 'AbortError') {
+      // Ignore abort errors (normal on unmount/dependency change)
+      if (err.name !== 'AbortError' && err.message !== 'canceled') {
         console.error('Enrollment count error:', err.message)
       }
     }

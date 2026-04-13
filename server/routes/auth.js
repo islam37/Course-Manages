@@ -68,24 +68,38 @@ router.post('/google', async (req, res) => {
   try {
     const { name, email, photoURL, googleId } = req.body;
 
-    if (!email) {
-      return res.status(400).json({ message: 'Email is required' });
+    // Validate required fields
+    if (!email || !googleId) {
+      return res.status(400).json({ message: 'Email and googleId are required' });
     }
 
-    let user = await User.findOne({ email: email.toLowerCase() });
+    const emailLower = email.toLowerCase();
+    let user = await User.findOne({ email: emailLower });
 
     if (!user) {
-      user = await User.create({ name, email, photoURL, googleId, password: undefined });
-    } else if (!user.googleId) {
-      user.googleId = googleId;
-      user.photoURL = photoURL || user.photoURL;
-      await user.save();
+      // Create new user from Google OAuth
+      user = await User.create({
+        name: name || 'User',
+        email: emailLower,
+        photoURL: photoURL || '',
+        googleId: googleId,
+        password: undefined
+      });
+    } else {
+      // Update existing user with Google ID if not present
+      if (!user.googleId) {
+        user.googleId = googleId;
+        user.photoURL = photoURL || user.photoURL;
+        await user.save();
+      }
     }
 
     const token = generateToken(user._id);
-    res.json({ message: 'Google login successful', token, user });
+    const userObj = user.toJSON();
+    res.json({ message: 'Google login successful', token, user: userObj });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    console.error('Google auth error:', err.message);
+    res.status(500).json({ message: err.message || 'Google authentication failed' });
   }
 });
 

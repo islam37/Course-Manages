@@ -8,9 +8,6 @@ require('dotenv').config();
 // Fix DNS resolution for MongoDB Atlas (resolves SRV record issues)
 dns.setServers(['8.8.8.8', '8.8.4.4']);
 
-const dns = require('dns');
-dns.setServers(['8.8.8.8', '8.8.4.4']);
-
 const authRoutes = require('./routes/auth');
 const courseRoutes = require('./routes/courses');
 const enrollmentRoutes = require('./routes/enrollments');
@@ -26,10 +23,20 @@ const limiter = rateLimit({
 });
 
 // Middleware
+
 app.use(cors({
   origin: process.env.CLIENT_URL || 'http://localhost:5173',
   credentials: true
 }));
+
+// Security headers for Firebase popup authentication
+app.use((req, res, next) => {
+  // Allow popup communication with parent window
+  res.header('Cross-Origin-Opener-Policy', 'same-origin-allow-popups');
+  res.header('Cross-Origin-Embedder-Policy', 'require-corp');
+  next();
+});
+
 app.use(express.json({ limit: '10kb' }));
 app.use('/api', limiter);
 

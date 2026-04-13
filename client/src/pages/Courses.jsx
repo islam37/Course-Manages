@@ -50,7 +50,8 @@ export default function Courses() {
       setCourses(res.data.courses)
       setTotalPages(Math.max(1, res.data.totalPages || 1))
     } catch (err) {
-      if (err.name !== 'AbortError') {
+      // Ignore abort and canceled errors (normal on unmount/dependency change)
+      if (err.name !== 'AbortError' && err.message !== 'canceled') {
         console.error('Failed to load courses:', err.message)
         toast.error('Failed to load courses')
         setCourses([])
