@@ -135,7 +135,7 @@ export default function Layout() {
       </AnimatePresence>
 
       {/* Main content */}
-      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+      <div className="flex-1 flex flex-col min-w-0">
         {/* Top bar */}
         <header className="flex-shrink-0 flex items-center gap-3 px-4 lg:px-6 h-14 border-b" style={{ background: '#1a2540', borderColor: 'rgba(255,255,255,0.08)' }}>
           <button className="lg:hidden p-1.5 rounded-lg glass" onClick={() => setSidebarOpen(true)}>

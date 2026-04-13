@@ -6,21 +6,28 @@ import App from './App.jsx'
 import { AuthProvider } from './context/AuthContext.jsx'
 import './index.css'
 
-// Suppress harmless Firebase COOP policy warnings
+// Suppress harmless warnings and messages
 const originalWarn = console.warn
 const originalError = console.error
 const originalLog = console.log
 
-const isCOOPMessage = (msg) => msg?.toString?.()?.includes?.('Cross-Origin-Opener-Policy')
+const shouldSuppress = (msg) => {
+  const str = msg?.toString?.() || ''
+  return (
+    str.includes('Cross-Origin-Opener-Policy') ||
+    str.includes('Download the React DevTools') ||
+    str.includes('react-devtools')
+  )
+}
 
 console.warn = function(...args) {
-  if (!args.some(isCOOPMessage)) originalWarn.apply(console, args)
+  if (!args.some(shouldSuppress)) originalWarn.apply(console, args)
 }
 console.error = function(...args) {
-  if (!args.some(isCOOPMessage)) originalError.apply(console, args)
+  if (!args.some(shouldSuppress)) originalError.apply(console, args)
 }
 console.log = function(...args) {
-  if (!args.some(isCOOPMessage)) originalLog.apply(console, args)
+  if (!args.some(shouldSuppress)) originalLog.apply(console, args)
 }
 
 ReactDOM.createRoot(document.getElementById('root')).render(

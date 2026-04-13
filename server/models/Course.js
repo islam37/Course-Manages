@@ -57,14 +57,6 @@ const courseSchema = new mongoose.Schema({
   timestamps: true
 });
 
-// Set availableSeats on creation
-courseSchema.pre('save', function (next) {
-  if (this.isNew) {
-    this.availableSeats = this.totalSeats;
-  }
-  next();
-});
-
 // Indexes
 courseSchema.index({ title: 'text', instructorName: 'text' });
 courseSchema.index({ enrolledCount: -1 });

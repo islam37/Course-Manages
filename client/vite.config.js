@@ -5,11 +5,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 5173,
-    hmr: {
-      host: 'localhost',
-      port: 5173,
-      protocol: 'ws'
-    },
+    hmr: false,
     proxy: {
       '/api': {
         target: process.env.VITE_API_TARGET || 'http://localhost:5000',

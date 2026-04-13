@@ -115,7 +115,21 @@ export function AddCourse() {
       toast.success('Course created successfully!')
       navigate('/dashboard/manage-courses')
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Failed to create course')
+      const errorMessage = err.response?.data?.message || err.message || 'Failed to create course'
+      const errorDetails = err.response?.data?.errors
+      
+      console.error('Course creation failed:', {
+        status: err.response?.status,
+        message: errorMessage,
+        errors: errorDetails,
+        fullError: err
+      })
+      
+      if (errorDetails && Array.isArray(errorDetails)) {
+        toast.error(errorDetails.join(', '))
+      } else {
+        toast.error(errorMessage)
+      }
     } finally { setLoading(false) }
   }
 

@@ -43,8 +43,27 @@ app.get('/', (req, res) => res.json({ status: 'CourseFlow API running' }));
 
 // Global error handler
 app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(err.status || 500).json({
+  console.error('❌ API Error:', {
+    message: err.message,
+    stack: err.stack,
+    status: err.status || 500
+  });
+
+  // Handle Mongoose validation errors
+  if (err.name === 'ValidationError') {
+    const messages = Object.values(err.errors).map(e => e.message);
+    return res.status(400).json({
+      message: 'Validation failed',
+      errors: messages
+    });
+  }
+
+  // Handle Mongoose cast errors
+  if (err.name === 'CastError') {
+    return res.status(400).json({ message: 'Invalid ID format' });
+  }
+
+  res.status(err.status || err.statusCode || 500).json({
     message: err.message || 'Internal server error',
     ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
   });

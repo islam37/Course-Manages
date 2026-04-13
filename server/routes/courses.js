@@ -87,18 +87,27 @@ router.post('/', verifyToken, adminOnly, async (req, res) => {
       title: xss(title), 
       shortDescription: xss(shortDescription), 
       description: xss(description), 
-      imageURL: xss(imageURL), 
+      imageURL: xss(imageURL) || '', 
       category,
       duration: xss(duration), 
-      totalSeats: totalSeats || 10, 
+      totalSeats: parseInt(totalSeats) || 10,
+      availableSeats: parseInt(totalSeats) || 10,
       instructorEmail: instructorEmail.toLowerCase(), 
       instructorName: xss(instructorName)
     });
 
     res.status(201).json({ message: 'Course created successfully', course });
   } catch (err) {
-    console.error('Course creation error:', err);
-    res.status(500).json({ message: err.message });
+    console.error('Course creation error - Full stack:', err);
+    console.error('Error details:', {
+      message: err.message,
+      name: err.name,
+      statusCode: err.statusCode
+    });
+    res.status(500).json({ 
+      message: err.message || 'Failed to create course',
+      details: process.env.NODE_ENV === 'development' ? err.errors : undefined
+    });
   }
 });
 
