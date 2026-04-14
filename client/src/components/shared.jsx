@@ -2,7 +2,7 @@ import { memo } from 'react'
 import PropTypes from 'prop-types'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
-import { HiClock, HiUser, HiUsers } from 'react-icons/hi'
+import { HiClock, HiUser, HiUsers, HiCurrencyDollar } from 'react-icons/hi'
 
 // ── Page wrapper with fade-slide animation ──────────────────────────────────
 export const PageWrapper = memo(function PageWrapper({ children, className = '' }) {
@@ -72,6 +72,14 @@ const CourseCardComponent = ({ course, actionSlot, index = 0 }) => {
           <span className="flex items-center gap-1"><HiClock className="w-3 h-3" />{course.duration}</span>
           <span className="flex items-center gap-1"><HiUser className="w-3 h-3" />{course.instructorName}</span>
         </div>
+
+        {/* Price display */}
+        {course.priceBDT !== undefined && (
+          <div className="mb-3 flex items-center gap-1.5 text-xs font-medium" style={{ color: '#4f8ef7' }}>
+            <HiCurrencyDollar className="w-3 h-3" />
+            {course.priceBDT > 0 ? `${course.priceBDT} BDT` : 'Free'}
+          </div>
+        )}
 
         {/* Seats bar */}
         <div className="mb-3">

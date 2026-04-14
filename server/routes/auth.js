@@ -30,7 +30,9 @@ router.post('/register', async (req, res) => {
       user
     });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    console.error('❌ Register Error:', err);
+    console.error('Error Stack:', err.stack);
+    res.status(500).json({ message: err.message || 'Registration failed', error: process.env.NODE_ENV === 'development' ? err.toString() : undefined });
   }
 });
 

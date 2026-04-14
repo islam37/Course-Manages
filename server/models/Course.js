@@ -52,6 +52,11 @@ const courseSchema = new mongoose.Schema({
   instructorName: {
     type: String,
     required: [true, 'Instructor name is required']
+  },
+  priceBDT: {
+    type: Number,
+    default: 0,
+    min: [0, 'Price cannot be negative']
   }
 }, {
   timestamps: true

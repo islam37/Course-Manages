@@ -12,7 +12,7 @@ function CourseForm({ initialData, onSubmit, loading, title }) {
   const [form, setForm] = useState({
     title: '', shortDescription: '', description: '',
     imageURL: '', category: 'Development', duration: '',
-    totalSeats: 10, instructorEmail: '', instructorName: '',
+    totalSeats: 10, instructorEmail: '', instructorName: '', priceBDT: 0,
     ...initialData
   })
 
@@ -77,6 +77,14 @@ function CourseForm({ initialData, onSubmit, loading, title }) {
               min={1} max={100} className={fieldClass} />
             <p className="text-[11px] mt-1" style={{ color: 'rgba(232,234,240,0.35)' }}>
               Max seats for this course (1–100)
+            </p>
+          </div>
+          <div>
+            <label className={labelClass} style={labelStyle}>Course Price (BDT)</label>
+            <input type="number" value={form.priceBDT} onChange={set('priceBDT')}
+              min={0} className={fieldClass} placeholder="0" />
+            <p className="text-[11px] mt-1" style={{ color: 'rgba(232,234,240,0.35)' }}>
+              Price in Bangladeshi Taka (leave as 0 for free course)
             </p>
           </div>
           <div>

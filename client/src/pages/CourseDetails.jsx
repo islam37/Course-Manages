@@ -6,7 +6,7 @@ import api from '../utils/api'
 import { useAuth } from '../context/AuthContext'
 import { useFetch, useEnrollmentCheck } from '../hooks/useApi'
 import { PageWrapper } from '../components/shared'
-import { HiClock, HiUser, HiUsers, HiArrowLeft, HiAcademicCap, HiCalendar } from 'react-icons/hi'
+import { HiClock, HiUser, HiUsers, HiArrowLeft, HiAcademicCap, HiCalendar, HiCurrencyDollar } from 'react-icons/hi'
 
 export default function CourseDetails() {
   const { id } = useParams()
@@ -120,6 +120,20 @@ export default function CourseDetails() {
         {/* Sidebar card */}
         <div className="lg:col-span-1">
           <div className="card p-5 sticky top-6">
+            {/* Price Display */}
+            <div className="mb-4 pb-4 border-b border-gray-700">
+              <div className="flex items-center justify-between">
+                <span style={{ color: 'rgba(232,234,240,0.55)' }} className="text-sm">Price</span>
+                <div className="flex items-center gap-2">
+                  <HiCurrencyDollar className="w-4 h-4" style={{ color: '#4f8ef7' }} />
+                  <span className="font-display font-bold text-lg">
+                    {localCourse.priceBDT > 0 ? `${localCourse.priceBDT}` : 'Free'}
+                  </span>
+                  {localCourse.priceBDT > 0 && <span className="text-xs" style={{ color: 'rgba(232,234,240,0.4)' }}>BDT</span>}
+                </div>
+              </div>
+            </div>
+
             <div className="mb-4">
               <div className="flex items-center justify-between text-sm mb-2">
                 <span style={{ color: 'rgba(232,234,240,0.55)' }}>Seats available</span>
