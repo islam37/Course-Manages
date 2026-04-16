@@ -87,10 +87,8 @@ export default function CourseDetails() {
 
       {/* Course header image */}
       {localCourse.imageURL && (
-        <div className="rounded-2xl overflow-hidden mb-6 h-80 bg-cover bg-center relative"
-          style={{ backgroundImage: `url('${localCourse.imageURL}')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-          <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(15,22,36,0.7), rgba(79,142,247,0.2))' }} />
-        </div>
+        <div className="rounded-2xl overflow-hidden mb-6 h-80 relative"
+          style={{ background: `linear-gradient(135deg, rgba(15,22,36,0.7), rgba(79,142,247,0.2)), url('${localCourse.imageURL}')`, backgroundSize: 'cover', backgroundPosition: 'center' }} />
       )}
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

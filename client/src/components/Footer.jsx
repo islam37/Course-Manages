@@ -33,11 +33,7 @@ export default function Footer() {
   ]
 
   return (
-    <footer className="relative mt-auto" style={{ background: '#0f1624' }}>
-      {/* Gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
-
-      <div className="relative border-t" style={{ borderColor: 'rgba(255,255,255,0.08)' }}>
+    <footer className="w-full border-t" style={{ background: '#0f1624', borderColor: 'rgba(255,255,255,0.08)' }}>
         <div className="max-w-7xl mx-auto px-4 lg:px-6 py-12">
           {/* Main footer content */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">

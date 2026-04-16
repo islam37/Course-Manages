@@ -41,3 +41,4 @@ async function makeAdmin(email) {
 }
 
 makeAdmin('islamuddin3725@gmail.com');
+

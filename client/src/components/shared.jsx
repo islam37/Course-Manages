@@ -48,10 +48,9 @@ const CourseCardComponent = ({ course, actionSlot, index = 0 }) => {
       style={{ transform: 'translateZ(0)' }}>
 
       {/* Image / header */}
-      <div className="h-28 flex items-center justify-center text-4xl relative overflow-hidden bg-cover bg-center"
-        style={{ background: course.imageURL ? `url('${course.imageURL}')` : cfg.color, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+      <div className="h-28 flex items-center justify-center text-4xl relative overflow-hidden"
+        style={{ background: course.imageURL ? `linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('${course.imageURL}')` : cfg.color, backgroundSize: 'cover', backgroundPosition: 'center' }}>
         {!course.imageURL && <span style={{ filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.3))' }}>{cfg.emoji}</span>}
-        {course.imageURL && <div className="absolute inset-0" style={{ background: 'rgba(0,0,0,0.15)' }} />}
         <span className="badge absolute top-3 left-3 text-[10px]"
           style={{ background: 'rgba(0,0,0,0.35)', color: '#e8eaf0', backdropFilter: 'blur(4px)' }}>
           {course.category}
