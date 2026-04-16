@@ -3,6 +3,7 @@ import { Outlet, NavLink, Link, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useAuth } from '../context/AuthContext'
 import toast from 'react-hot-toast'
+import Footer from './Footer'
 import {
   HiHome, HiBookOpen, HiAcademicCap, HiChartBar,
   HiPlusCircle, HiCog, HiUsers, HiClipboardList,
@@ -190,6 +191,9 @@ export default function Layout() {
         <main className="flex-1 overflow-y-auto">
           <Outlet />
         </main>
+
+        {/* Footer */}
+        <Footer />
       </div>
     </div>
   )
