@@ -43,7 +43,7 @@ const CourseCardComponent = ({ course, actionSlot, index = 0 }) => {
     <motion.div
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.25, delay: index * 0.05 }}
+      transition={{ duration: 0.15 }}
       className="card overflow-hidden flex flex-col group hover:border-white/20 transition-all duration-200"
       style={{ transform: 'translateZ(0)' }}>
 

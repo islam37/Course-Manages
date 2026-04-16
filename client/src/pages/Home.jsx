@@ -27,7 +27,7 @@ export default function Home() {
             style={{ background: 'radial-gradient(circle, #7c5cfc, transparent)' }} />
         </div>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
           <span className="inline-flex items-center gap-1.5 badge badge-blue mb-5 py-1 px-3">
             <HiSparkles className="w-3 h-3" /> Online Learning Platform
           </span>
@@ -55,7 +55,7 @@ export default function Home() {
         </motion.div>
 
         {/* Stats row */}
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3, duration: 0.5 }}
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1, duration: 0.3 }}
           className="flex items-center justify-center gap-10 mt-12 flex-wrap">
           {[['24+', 'Courses'], ['500+', 'Students'], ['10', 'Seats/Course'], ['3', 'Max Enrollments']].map(([val, label]) => (
             <div key={label} className="text-center">
