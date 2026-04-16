@@ -187,13 +187,13 @@ export default function Layout() {
           )}
         </header>
 
-        {/* Page content */}
-        <main className="flex-1 overflow-y-auto">
-          <Outlet />
-        </main>
-
-        {/* Footer */}
-        <Footer />
+        {/* Page content and Footer */}
+        <div className="flex-1 flex flex-col min-w-0">
+          <main className="flex-1 overflow-y-auto">
+            <Outlet />
+          </main>
+          <Footer />
+        </div>
       </div>
     </div>
   )
