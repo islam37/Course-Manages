@@ -43,14 +43,14 @@ const CourseCardComponent = ({ course, actionSlot, index = 0 }) => {
     <motion.div
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.25, delay: index * 0.05 }}
+      transition={{ duration: 0.15 }}
       className="card overflow-hidden flex flex-col group hover:border-white/20 transition-all duration-200"
       style={{ transform: 'translateZ(0)' }}>
 
       {/* Image / header */}
-      <div className="h-28 flex items-center justify-center text-4xl relative"
-        style={{ background: cfg.color }}>
-        <span style={{ filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.3))' }}>{cfg.emoji}</span>
+      <div className="h-28 flex items-center justify-center text-4xl relative overflow-hidden"
+        style={{ background: course.imageURL ? `linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('${course.imageURL}')` : cfg.color, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+        {!course.imageURL && <span style={{ filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.3))' }}>{cfg.emoji}</span>}
         <span className="badge absolute top-3 left-3 text-[10px]"
           style={{ background: 'rgba(0,0,0,0.35)', color: '#e8eaf0', backdropFilter: 'blur(4px)' }}>
           {course.category}

@@ -77,7 +77,7 @@ router.get('/:id', async (req, res) => {
 // POST /api/courses - Create course (admin)
 router.post('/', verifyToken, adminOnly, async (req, res) => {
   try {
-    const { title, shortDescription, description, imageURL, category, duration, totalSeats, instructorEmail, instructorName } = req.body;
+    const { title, shortDescription, description, imageURL, category, duration, totalSeats, instructorEmail, instructorName, priceBDT } = req.body;
 
     if (!title || !shortDescription || !description || !duration || !instructorEmail || !instructorName) {
       return res.status(400).json({ message: 'All required fields must be provided' });
@@ -93,7 +93,8 @@ router.post('/', verifyToken, adminOnly, async (req, res) => {
       totalSeats: parseInt(totalSeats) || 10,
       availableSeats: parseInt(totalSeats) || 10,
       instructorEmail: instructorEmail.toLowerCase(), 
-      instructorName: xss(instructorName)
+      instructorName: xss(instructorName),
+      priceBDT: parseInt(priceBDT) || 0
     });
 
     res.status(201).json({ message: 'Course created successfully', course });
@@ -117,7 +118,7 @@ router.put('/:id', verifyToken, adminOnly, async (req, res) => {
     const course = await Course.findById(req.params.id);
     if (!course) return res.status(404).json({ message: 'Course not found' });
 
-    const { title, shortDescription, description, imageURL, category, duration, totalSeats, instructorEmail, instructorName } = req.body;
+    const { title, shortDescription, description, imageURL, category, duration, totalSeats, instructorEmail, instructorName, priceBDT } = req.body;
 
     // Validate required fields
     if (title && title.trim().length === 0) {
@@ -148,7 +149,8 @@ router.put('/:id', verifyToken, adminOnly, async (req, res) => {
       duration: duration ? xss(duration) : course.duration,
       instructorEmail: instructorEmail || course.instructorEmail,
       instructorName: instructorName ? xss(instructorName) : course.instructorName,
-      totalSeats: totalSeats || course.totalSeats
+      totalSeats: totalSeats || course.totalSeats,
+      priceBDT: priceBDT !== undefined ? parseInt(priceBDT) : course.priceBDT
     });
 
     await course.save();
