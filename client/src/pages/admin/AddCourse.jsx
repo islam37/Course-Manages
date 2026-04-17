@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import toast from 'react-hot-toast'
 import api from '../../utils/api'
 import { PageWrapper } from '../../components/shared'
-import { HiArrowLeft, HiBookOpen } from 'react-icons/hi'
+import { HiArrowLeft, HiBookOpen, HiPhotograph } from 'react-icons/hi'
 
 const CATEGORIES = ['Development', 'Data Science', 'Design', 'Cloud', 'Business', 'Other']
 
@@ -16,7 +16,22 @@ function CourseForm({ initialData, onSubmit, loading, title }) {
     ...initialData
   })
 
-  const set = (key) => (e) => setForm({ ...form, [key]: e.target.value })
+  // Update form when initialData changes (for edit mode)
+  useEffect(() => {
+    if (initialData && Object.keys(initialData).length > 0) {
+      setForm(prev => ({
+        ...prev,
+        ...initialData,
+        priceBDT: Number(initialData.priceBDT) || 0,
+        totalSeats: Number(initialData.totalSeats) || 10
+      }))
+    }
+  }, [initialData?.id || initialData?._id])
+
+  const set = (key) => (e) => {
+    const value = key === 'priceBDT' || key === 'totalSeats' ? Number(e.target.value) || 0 : e.target.value
+    setForm({ ...form, [key]: value })
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -24,7 +39,12 @@ function CourseForm({ initialData, onSubmit, loading, title }) {
       toast.error('Please fill in all required fields')
       return
     }
-    onSubmit(form)
+    // Ensure priceBDT is a number
+    onSubmit({
+      ...form,
+      priceBDT: Number(form.priceBDT) || 0,
+      totalSeats: Number(form.totalSeats) || 10
+    })
   }
 
   const fieldClass = "input-field"
@@ -56,6 +76,13 @@ function CourseForm({ initialData, onSubmit, loading, title }) {
             <label className={labelClass} style={labelStyle}>Image URL</label>
             <input value={form.imageURL} onChange={set('imageURL')}
               placeholder="https://example.com/image.jpg" className={fieldClass} />
+            {form.imageURL && (
+              <div className="mt-2 rounded-lg overflow-hidden border border-white/10">
+                <img src={form.imageURL} alt="Course preview" 
+                  className="w-full h-32 object-cover" 
+                  onError={(e) => { e.target.style.display = 'none' }} />
+              </div>
+            )}
           </div>
         </div>
 
@@ -82,7 +109,7 @@ function CourseForm({ initialData, onSubmit, loading, title }) {
           <div>
             <label className={labelClass} style={labelStyle}>Course Price (BDT)</label>
             <input type="number" value={form.priceBDT} onChange={set('priceBDT')}
-              min={0} className={fieldClass} placeholder="0" />
+              min={0} step={10} className={fieldClass} placeholder="0" />
             <p className="text-[11px] mt-1" style={{ color: 'rgba(232,234,240,0.35)' }}>
               Price in Bangladeshi Taka (leave as 0 for free course)
             </p>
