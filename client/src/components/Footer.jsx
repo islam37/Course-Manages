@@ -27,9 +27,9 @@ export default function Footer() {
   }
 
   const socialLinks = [
-    { name: 'GitHub', href: 'https://github.com/islam37/Course-Manages', icon: '🐙' },
-    { name: 'LinkedIn', href: '#', icon: '💼' },
-    { name: 'Twitter', href: '#', icon: '🐦' },
+    { name: 'GitHub', href: 'https://github.com/islam37/Course-Manages', icon: 'Git' },
+    { name: 'LinkedIn', href: '#', icon: 'Link' },
+    { name: 'Twitter', href: '#', icon: 'X' },
   ]
 
   return (
@@ -59,11 +59,11 @@ export default function Footer() {
                 </div>
                 <div className="flex items-center gap-3 text-sm" style={{ color: 'rgba(232,234,240,0.6)' }}>
                   <HiPhone className="w-4 h-4 flex-shrink-0" />
-                  <span>+1 (555) 123-4567</span>
+                  <span>+8801568289690</span>
                 </div>
                 <div className="flex items-center gap-3 text-sm" style={{ color: 'rgba(232,234,240,0.6)' }}>
                   <HiLocationMarker className="w-4 h-4 flex-shrink-0" />
-                  <span>San Francisco, CA</span>
+                  <span>Sylhet,Bangladesh</span>
                 </div>
               </div>
             </div>
